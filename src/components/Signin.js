@@ -5,6 +5,7 @@ import isEmpty from "validator/lib/isEmpty";
 import { signin } from "../api/auth";
 import { ShowLoading } from "./helpers/loading";
 import { ShowErrMsg } from "./helpers/message";
+import { setAuthentication } from "./helpers/auth";
 
 const Signin = () => {
   const [formData, setFormData] = useState({
@@ -47,7 +48,14 @@ const Signin = () => {
       setFormData({ ...formData, loading: true });
 
       // pass in data as argument
-      signin(data);
+      signin(data)
+        // promise based
+        .then((response) => {
+          setAuthentication(response.data.token, response.data.user);
+        })
+        .catch((err) => {
+          console.log("Sign in api function error", err);
+        });
     }
   };
 
