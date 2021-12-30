@@ -5,7 +5,7 @@ import isEmpty from "validator/lib/isEmpty";
 import { signin } from "../api/auth";
 import { ShowLoading } from "./helpers/loading";
 import { ShowErrMsg } from "./helpers/message";
-import { setAuthentication } from "./helpers/auth";
+import { setAuthentication, isAuthenticated } from "./helpers/auth";
 
 const Signin = () => {
   const [formData, setFormData] = useState({
@@ -13,9 +13,8 @@ const Signin = () => {
     password: "123456",
     errorMsg: false,
     loading: false,
-    redirectToDashboard: false,
   });
-  const { email, password, errorMsg, loading, redirectToDashboard } = formData;
+  const { email, password, errorMsg, loading } = formData;
 
   // Event Handlers
   const handleChange = (e) => {
@@ -52,6 +51,12 @@ const Signin = () => {
         // promise based
         .then((response) => {
           setAuthentication(response.data.token, response.data.user);
+
+          if (isAuthenticated() && isAuthenticated().role === 1) {
+            console.log("Redirecting to admin dashboard");
+          } else {
+            console.log("Redirecting to user dashboard");
+          }
         })
         .catch((err) => {
           console.log("Sign in api function error", err);
