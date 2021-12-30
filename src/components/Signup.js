@@ -70,7 +70,7 @@ const Signup = () => {
                   password: "",
                   password2: "",
                   loading: false,
-                  successMsg: response.data.successMsg,
+                  successMsg: response.data.successMessage,
                 });
               })
               .catch((err) => {
@@ -78,7 +78,7 @@ const Signup = () => {
                 setFormData({
                   ...formData,
                   loading: false,
-                  errorMsg: err.response.data.errorMsg,
+                  errorMsg: err.response.data.errorMessage,
                 });
               });
 
