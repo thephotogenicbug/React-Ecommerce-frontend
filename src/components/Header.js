@@ -1,8 +1,17 @@
 import React from "react";
-import { Link } from "react-router-dom";
-import { isAuthenticated } from "./helpers/auth";
+import { Link, useNavigate } from "react-router-dom";
+import { isAuthenticated, logout } from "./helpers/auth";
 
 const Header = () => {
+
+  let navigate = useNavigate()
+
+  const handleLogout = (e) => {
+     logout(() => {
+        navigate('/signin')
+     })
+  };
+
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light">
       <div className="container-fluid">
@@ -22,59 +31,27 @@ const Header = () => {
         </button>
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
           <ul className="navbar-nav ml-auto mb-2 mb-lg-0">
-            {isAuthenticated() && (
-              <>
-                <li className="nav-item">
-                  <Link to="/signup" className="nav-link" aria-current="page">
-                    Signup
-                  </Link>
-                </li>
-                <li className="nav-item">
-                  <Link to="/signin" className="nav-link" aria-current="page">
-                    Signin
-                  </Link>
-                </li>
-              </>
-            )}
-            {isAuthenticated() && isAuthenticated.role === 0 && (
-              <>
-                <li className="nav-item">
-                  <Link
-                    to="/user/dashboard"
-                    className="nav-link"
-                    aria-current="page"
-                  >
-                    Dashboard
-                  </Link>
-                </li>
-              </>
-            )}
-            {isAuthenticated() && isAuthenticated.role === 1 && (
-              <>
-                <li className="nav-item">
-                  <Link
-                    to="/admin/dashboard"
-                    className="nav-link"
-                    aria-current="page"
-                  >
-                    Dashboard
-                  </Link>
-                </li>
-              </>
-            )}
-            {isAuthenticated() &&  (
-              <>
-                <li className="nav-item">
-                  <Link
-                    to="/admin/dashboard"
-                    className="nav-link"
-                    aria-current="page"
-                  >
-                    Logout
-                  </Link>
-                </li>
-              </>
-            )}
+            <>
+              <li className="nav-item">
+                <Link to="/signup" className="nav-link" aria-current="page">
+                  Signup
+                </Link>
+              </li>
+              <li className="nav-item">
+                <Link to="/signin" className="nav-link" aria-current="page">
+                  Signin
+                </Link>
+              </li>
+              <li className="nav-item">
+                <button 
+                  className="btn btn-primary"
+                  aria-current="page"
+                  onClick={handleLogout}
+                >
+                  Logout
+                </button>
+              </li>
+            </>
           </ul>
         </div>
       </div>
